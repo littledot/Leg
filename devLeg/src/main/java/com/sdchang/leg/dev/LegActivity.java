@@ -40,6 +40,6 @@ public class LegActivity extends Activity {
 		Leg.a(nullString, "myMessage", threw);
 		Leg.a("myTag", "myMessage", threw);
 
-		Leg.a("%s %d %f", "hello", 12345, 98765.456123);
+		Leg.a("%s %d %s", "Like running with", 3, "legs");
 	}
 }
