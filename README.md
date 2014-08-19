@@ -4,7 +4,7 @@
 2. Are you tired of repeatedly copying class names just to tag log messages?
 3. Have you ever performed a project-wide search for a log message, only to find the same message being logged in several different places with the same tag or no tags at all?
 
-If you said yes to any of the above, Android Leg is just the library for you!
+If you said _yes_ to any of the above, Android Leg is just the library for you!
 Leg is a logger that tells you exactly where in the source code the message was generated.
 Leg will automatically tag all log messages with the location of the log call, so that you, the developer can focus on the import part: composing informative log messages.
 
@@ -79,7 +79,7 @@ dependencies {
 ## License
 
 ```
-Copyright 2012 Sheng-Dean, Chang
+Copyright 2014 Sheng-Dean, Chang
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
