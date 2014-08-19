@@ -48,6 +48,16 @@ public class Leg {
 	}
 
 	/**
+	 * Check if this is a Release build and if the user wants logging enabled
+	 * for Release builds.
+	 *
+	 * @return TRUE if logging is enabled.
+	 */
+	private static boolean isLogEnabled() {
+		return !mIsReleaseBuild || (mIsReleaseBuild && mLogReleaseBuild);
+	}
+
+	/**
 	 * @param e
 	 *
 	 * @return
@@ -99,8 +109,10 @@ public class Leg {
 	 * switch cases, goto, etc.)
 	 */
 	public static void a() {
-		StackTraceElement invoker = getStack(1);
-		log(Log.ASSERT, invoker, getTag(invoker), null, null);
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, getTag(invoker), null, null);
+		}
 	}
 
 	/**
@@ -109,8 +121,10 @@ public class Leg {
 	 * @param msg The message you would like logged.
 	 */
 	public static void a(String msg) {
-		StackTraceElement invoker = getStack(1);
-		log(Log.ASSERT, invoker, getTag(invoker), msg, null);
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, getTag(invoker), msg, null);
+		}
 	}
 
 	/**
@@ -120,8 +134,10 @@ public class Leg {
 	 * @param t   An exception to log
 	 */
 	public static void a(String msg, Throwable t) {
-		StackTraceElement invoker = getStack(1);
-		log(Log.ASSERT, invoker, getTag(invoker), msg, t);
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, getTag(invoker), msg, t);
+		}
 	}
 
 	/**
@@ -132,8 +148,10 @@ public class Leg {
 	 * @param msg The message you would like logged.
 	 */
 	public static void a(String tag, String msg) {
-		StackTraceElement invoker = getStack(1);
-		log(Log.ASSERT, invoker, tag, msg, null);
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, tag, msg, null);
+		}
 	}
 
 	/**
@@ -145,8 +163,10 @@ public class Leg {
 	 * @param t   An exception to log
 	 */
 	public static void a(String tag, String msg, Throwable t) {
-		StackTraceElement invoker = getStack(1);
-		log(Log.ASSERT, invoker, tag, msg, t);
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, tag, msg, t);
+		}
 	}
 
 	/**
@@ -158,8 +178,10 @@ public class Leg {
 	 *               arguments are ignored
 	 */
 	public static void a(String format, Object... args) {
-		StackTraceElement invoker = getStack(1);
-		log(Log.ASSERT, invoker, getTag(invoker), String.format(format, args), null);
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, getTag(invoker), String.format(format, args), null);
+		}
 	}
 
 	/**
@@ -213,8 +235,6 @@ public class Leg {
 			msgBuilder.append('\u007F');
 		}
 
-		if (!mIsReleaseBuild || (mIsReleaseBuild && mLogReleaseBuild)) {
-			Log.println(priority, tag, msgBuilder.toString());
-		}
+		Log.println(priority, tag, msgBuilder.toString());
 	}
 }
