@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Leg.iml" filepath="$PROJECT_DIR$/Leg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/devLeg/devLeg.iml" filepath="$PROJECT_DIR$/devLeg/devLeg.iml" />
       <module fileurl="file://$PROJECT_DIR$/libLeg/libLeg.iml" filepath="$PROJECT_DIR$/libLeg/libLeg.iml" />
     </modules>
   </component>

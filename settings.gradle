@@ -1,1 +1,1 @@
-include ':libLeg'
+include ':libLeg', ':devLeg'
