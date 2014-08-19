@@ -49,11 +49,11 @@ Leg prepends your custom tags so that you can still grep it.
 ```java
 Leg.e("myTag", "myMessage", new NullPointerException("Leg is awesome"));
 ```
-> E/[myTag] LegActivity#41 (onCreate)( 1504): myMessage
-> E/[myTag] LegActivity#41 (onCreate)( 1504): java.lang.NullPointerException: Leg is awesome
-> E/[myTag] LegActivity#41 (onCreate)( 1504): 	at com.sdchang.leg.dev.LegActivity.onCreate(LegActivity.java:15)
-> E/[myTag] LegActivity#41 (onCreate)( 1504): 	at android.app.Activity.performCreate(Activity.java:5231)
-> E/[myTag] LegActivity#41 (onCreate)( 1504): 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)
+> E/[myTag] LegActivity#41 (onCreate)( 1504): myMessage  
+> E/[myTag] LegActivity#41 (onCreate)( 1504): java.lang.NullPointerException: Leg is awesome  
+> E/[myTag] LegActivity#41 (onCreate)( 1504): 	at com.sdchang.leg.dev.LegActivity.onCreate(LegActivity.java:15)  
+> E/[myTag] LegActivity#41 (onCreate)( 1504): 	at android.app.Activity.performCreate(Activity.java:5231)  
+> E/[myTag] LegActivity#41 (onCreate)( 1504): 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)  
 > ...
 
 With class names automatically generated for you, the sky's the limit as to what creative tags you could come up with.
