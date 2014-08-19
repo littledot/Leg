@@ -10,85 +10,7 @@ import android.util.Log;
  *
  * @author sdchang
  */
-public class Leg {
-
-	/**
-	 * Offset of the enclosing method within the stack trace.
-	 *
-	 * @see <a href="http://stackoverflow.com/a/8592871/499125">Getting the name
-	 * of the current executing method</a>
-	 */
-	private static final int ENCLOSING_METHOD_INDEX;
-
-	private static boolean mIsReleaseBuild;
-	private static boolean mLogReleaseBuild;
-
-	static {
-		int i = 0;
-		for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-			i++;
-			if (ste.getClassName().equals(Leg.class.getName())) {
-				break;
-			}
-		}
-		ENCLOSING_METHOD_INDEX = i;
-	}
-
-	/**
-	 * Return the StackTraceElement of the invoking method.
-	 *
-	 * @param offset Additional offset from the invoking method.
-	 *
-	 * @return
-	 */
-	private static StackTraceElement getStack(int offset) {
-		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-		StackTraceElement e = ste[ENCLOSING_METHOD_INDEX + offset];
-		return e;
-	}
-
-	/**
-	 * Check if this is a Release build and if the user wants logging enabled
-	 * for Release builds.
-	 *
-	 * @return TRUE if logging is enabled.
-	 */
-	private static boolean isLogEnabled() {
-		return !mIsReleaseBuild || (mIsReleaseBuild && mLogReleaseBuild);
-	}
-
-	/**
-	 * @param e
-	 *
-	 * @return
-	 */
-	private static String getTag(StackTraceElement e) {
-		return getTag(e.getClassName());
-	}
-
-	/**
-	 * Return the tag for the class.
-	 *
-	 * @param className
-	 *
-	 * @return
-	 */
-	private static String getTag(String className) {
-		Class clazz = null;
-		try {
-			clazz = Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		if (clazz != null) {
-			LegTag legTag = (LegTag) clazz.getAnnotation(LegTag.class);
-			if (legTag != null) {
-				return legTag.value();
-			}
-		}
-		return null;
-	}
+public class Leg extends LegCat {
 
 	/**
 	 * Configure whether or not to print logs in Release builds. By default, Leg
@@ -101,6 +23,411 @@ public class Leg {
 										 boolean logReleaseBuild) {
 		mIsReleaseBuild = !isDebug;
 		mLogReleaseBuild = logReleaseBuild;
+	}
+
+	/**
+	 * Send an VERBOSE log message displaying only the smart tag. Useful when
+	 * you want to verify this line of code is reached (eg. if...else branches,
+	 * switch cases, goto, etc.)
+	 */
+	public static void v() {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.VERBOSE, invoker, getTag(invoker), null, null);
+		}
+	}
+
+	/**
+	 * Send an VERBOSE log message.
+	 *
+	 * @param msg The message you would like logged.
+	 */
+	public static void v(String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.VERBOSE, invoker, getTag(invoker), msg, null);
+		}
+	}
+
+	/**
+	 * Send a VERBOSE log message and log the exception.
+	 *
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void v(String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.VERBOSE, invoker, getTag(invoker), msg, t);
+		}
+	}
+
+	/**
+	 * Send an VERBOSE log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 */
+	public static void v(String tag, String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.VERBOSE, invoker, tag, msg, null);
+		}
+	}
+
+	/**
+	 * Send an VERBOSE log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void v(String tag, String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.VERBOSE, invoker, tag, msg, t);
+		}
+	}
+
+	/**
+	 * Send an VERBOSE log message.
+	 *
+	 * @param format the format string (see {@link java.util.Formatter#format})
+	 * @param args   the list of arguments passed to the formatter. If there are
+	 *               more arguments than required by {@code format}, additional
+	 *               arguments are ignored
+	 */
+	public static void v(String format, Object... args) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.VERBOSE, invoker, getTag(invoker), String.format(format, args), null);
+		}
+	}
+
+	/**
+	 * Send an INFO log message displaying only the smart tag. Useful when you
+	 * want to verify this line of code is reached (eg. if...else branches,
+	 * switch cases, goto, etc.)
+	 */
+	public static void i() {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.INFO, invoker, getTag(invoker), null, null);
+		}
+	}
+
+	/**
+	 * Send an INFO log message.
+	 *
+	 * @param msg The message you would like logged.
+	 */
+	public static void i(String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.INFO, invoker, getTag(invoker), msg, null);
+		}
+	}
+
+	/**
+	 * Send a INFO log message and log the exception.
+	 *
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void i(String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.INFO, invoker, getTag(invoker), msg, t);
+		}
+	}
+
+	/**
+	 * Send an INFO log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 */
+	public static void i(String tag, String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.INFO, invoker, tag, msg, null);
+		}
+	}
+
+	/**
+	 * Send an INFO log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void i(String tag, String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.INFO, invoker, tag, msg, t);
+		}
+	}
+
+	/**
+	 * Send an INFO log message.
+	 *
+	 * @param format the format string (see {@link java.util.Formatter#format})
+	 * @param args   the list of arguments passed to the formatter. If there are
+	 *               more arguments than required by {@code format}, additional
+	 *               arguments are ignored
+	 */
+	public static void i(String format, Object... args) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.INFO, invoker, getTag(invoker), String.format(format, args), null);
+		}
+	}
+
+	/**
+	 * Send an DEBUG log message displaying only the smart tag. Useful when you
+	 * want to verify this line of code is reached (eg. if...else branches,
+	 * switch cases, goto, etc.)
+	 */
+	public static void d() {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.DEBUG, invoker, getTag(invoker), null, null);
+		}
+	}
+
+	/**
+	 * Send an DEBUG log message.
+	 *
+	 * @param msg The message you would like logged.
+	 */
+	public static void d(String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.DEBUG, invoker, getTag(invoker), msg, null);
+		}
+	}
+
+	/**
+	 * Send a DEBUG log message and log the exception.
+	 *
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void d(String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.DEBUG, invoker, getTag(invoker), msg, t);
+		}
+	}
+
+	/**
+	 * Send an DEBUG log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 */
+	public static void d(String tag, String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.DEBUG, invoker, tag, msg, null);
+		}
+	}
+
+	/**
+	 * Send an DEBUG log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void d(String tag, String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.DEBUG, invoker, tag, msg, t);
+		}
+	}
+
+	/**
+	 * Send an DEBUG log message.
+	 *
+	 * @param format the format string (see {@link java.util.Formatter#format})
+	 * @param args   the list of arguments passed to the formatter. If there are
+	 *               more arguments than required by {@code format}, additional
+	 *               arguments are ignored
+	 */
+	public static void d(String format, Object... args) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.DEBUG, invoker, getTag(invoker), String.format(format, args), null);
+		}
+	}
+
+	/**
+	 * Send an WARNING log message displaying only the smart tag. Useful when
+	 * you want to verify this line of code is reached (eg. if...else branches,
+	 * switch cases, goto, etc.)
+	 */
+	public static void w() {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.WARN, invoker, getTag(invoker), null, null);
+		}
+	}
+
+	/**
+	 * Send an WARNING log message.
+	 *
+	 * @param msg The message you would like logged.
+	 */
+	public static void w(String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.WARN, invoker, getTag(invoker), msg, null);
+		}
+	}
+
+	/**
+	 * Send a WARNING log message and log the exception.
+	 *
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void w(String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.WARN, invoker, getTag(invoker), msg, t);
+		}
+	}
+
+	/**
+	 * Send an WARNING log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 */
+	public static void w(String tag, String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.WARN, invoker, tag, msg, null);
+		}
+	}
+
+	/**
+	 * Send an WARNING log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void w(String tag, String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.WARN, invoker, tag, msg, t);
+		}
+	}
+
+	/**
+	 * Send an WARNING log message.
+	 *
+	 * @param format the format string (see {@link java.util.Formatter#format})
+	 * @param args   the list of arguments passed to the formatter. If there are
+	 *               more arguments than required by {@code format}, additional
+	 *               arguments are ignored
+	 */
+	public static void w(String format, Object... args) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.WARN, invoker, getTag(invoker), String.format(format, args), null);
+		}
+	}
+
+	/**
+	 * Send an ERROR log message displaying only the smart tag. Useful when you
+	 * want to verify this line of code is reached (eg. if...else branches,
+	 * switch cases, goto, etc.)
+	 */
+	public static void e() {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ASSERT, invoker, getTag(invoker), null, null);
+		}
+	}
+
+	/**
+	 * Send an ERROR log message.
+	 *
+	 * @param msg The message you would like logged.
+	 */
+	public static void e(String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ERROR, invoker, getTag(invoker), msg, null);
+		}
+	}
+
+	/**
+	 * Send a ERROR log message and log the exception.
+	 *
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void e(String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ERROR, invoker, getTag(invoker), msg, t);
+		}
+	}
+
+	/**
+	 * Send an ERROR log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 */
+	public static void e(String tag, String msg) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ERROR, invoker, tag, msg, null);
+		}
+	}
+
+	/**
+	 * Send an ERROR log message.
+	 *
+	 * @param tag Used to identify the source of a log message. It usually
+	 *            identifies the class or activity where the log call occurs.
+	 * @param msg The message you would like logged.
+	 * @param t   An exception to log
+	 */
+	public static void e(String tag, String msg, Throwable t) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ERROR, invoker, tag, msg, t);
+		}
+	}
+
+	/**
+	 * Send an ERROR log message.
+	 *
+	 * @param format the format string (see {@link java.util.Formatter#format})
+	 * @param args   the list of arguments passed to the formatter. If there are
+	 *               more arguments than required by {@code format}, additional
+	 *               arguments are ignored
+	 */
+	public static void e(String format, Object... args) {
+		if (isLogEnabled()) {
+			StackTraceElement invoker = getStack(1);
+			log(Log.ERROR, invoker, getTag(invoker), String.format(format, args), null);
+		}
 	}
 
 	/**
@@ -182,59 +509,5 @@ public class Leg {
 			StackTraceElement invoker = getStack(1);
 			log(Log.ASSERT, invoker, getTag(invoker), String.format(format, args), null);
 		}
-	}
-
-	/**
-	 * Output logs to LogCat.
-	 *
-	 * @param priority Log type. Log.DEBUG, Log.ERROR, etc.
-	 * @param e        The invoker's stack trace element
-	 * @param tag      Log's tag
-	 * @param msg      Log's message
-	 */
-	private static void log(int priority, StackTraceElement e, String tag,
-							String msg, Throwable t) {
-
-		/* Format smart tag */
-		String fullClassName = e.getClassName();
-		String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
-		String methodName = e.getMethodName();
-		String lineNumber = String.valueOf(e.getLineNumber());
-		String fileName = e.getFileName();
-
-		StringBuilder sb = new StringBuilder().append(className).append('#').append(
-				lineNumber).append(" (").append(methodName).append(')');
-
-		/* Prepend smart tag with user's tag. */
-		if (tag != null) {
-			sb.insert(0, "] ").insert(0, tag).insert(0, '[');
-		}
-		tag = sb.toString();
-
-		StringBuilder msgBuilder = new StringBuilder();
-
-		/* First append the exception */
-		if (t != null) {
-			msgBuilder.append(Log.getStackTraceString(t));
-		}
-
-		if (msg != null) {
-			/* If there was an exception, prepend a newline. */
-			if (msgBuilder.length() > 0) {
-				msgBuilder.insert(0, '\n');
-			}
-			/* Now prepend the user's message. */
-			msgBuilder.insert(0, msg);
-		}
-
-		if (msgBuilder.length() == 0) {
-			/* A bug in IntelliJ's Android plugin will print the _next_ log in
-			 * square brackets as the message of this log when you want to log a
-			 * space (' '). Instead, log \u007F (DEL), which causes IntelliJ to
-			 * print a space ' '. */
-			msgBuilder.append('\u007F');
-		}
-
-		Log.println(priority, tag, msgBuilder.toString());
 	}
 }
