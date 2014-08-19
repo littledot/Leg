@@ -35,7 +35,9 @@ public class Leg {
 	}
 
 	/**
-	 * @param offset
+	 * Return the StackTraceElement of the invoking method.
+	 *
+	 * @param offset Additional offset from the invoking method.
 	 *
 	 * @return
 	 */
@@ -55,7 +57,7 @@ public class Leg {
 	}
 
 	/**
-	 * Return the tag for the class
+	 * Return the tag for the class.
 	 *
 	 * @param className
 	 *
