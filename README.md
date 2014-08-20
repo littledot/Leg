@@ -90,8 +90,8 @@ repositories {
     }
 }
 dependencies {
-    compile 'com.sdchang:leg:0.0.1'
-    compile 'com.sdchang:leg:0.0.1@aar'
+    compile 'com.sdchang:leg:0.0.2'
+    compile 'com.sdchang:leg:0.0.2@aar'
 }
 ```
 
