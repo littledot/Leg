@@ -12,6 +12,10 @@ Leg will automatically tag all log messages with the location of the log call, s
 
 ## Usage
 
+Leg is intuitive to use. Just type Leg and let auto-complete do the hard work.
+
+### Leg
+
 * To log a message,
 ```java
 Leg.e("myMessage");
@@ -56,7 +60,24 @@ Leg.e("myTag", "myMessage", new NullPointerException("Leg is awesome"));
 > E/[myTag] LegActivity#41 (onCreate)( 1504): 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)  
 > ...
 
-With class names automatically generated for you, the sky's the limit as to what creative tags you could come up with.
+With class names automatically generated for you, the sky's the limit as to what creative and informative tags you could come up with.
+
+### @LegTag
+
+You can also annotate any class, interface or enum with ```@LegTag```. Leg will automatically tag all log calls within the annotated class with the value specified in LegTag.
+
+```java
+public class LegActivity extends Activity {
+    @LegTag("innerClazz")
+    private class Inner {
+        private void test() {
+            Leg.e()
+        }
+    }
+}
+```
+> E/[innerClazz] LegActivity$Inner#63 (test)﹕  
+> E/[innerClazz] LegActivity$Inner#56 (test)﹕ myMessage
 
 
 
