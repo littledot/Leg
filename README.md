@@ -22,7 +22,7 @@ Leg.e("myMessage");
 ```
 > E/LegActivity#22 (onCreate)﹕ myMessage
 
-Leg automatically tag all messages with the enclosing class name, line number and the enclosing method name.
+Leg automatically tags all messages with the enclosing class name, line number and enclosing method name.
 
 * Sometimes you just want to be sure a block of code is executed, you simply don't care about the message.
 ```java
@@ -71,7 +71,8 @@ public class LegActivity extends Activity {
     @LegTag("innerClazz")
     private class Inner {
         private void test() {
-            Leg.e()
+            Leg.e();
+            Leg.e("myMessage");
         }
     }
 }
@@ -90,8 +91,8 @@ repositories {
     }
 }
 dependencies {
-    compile 'com.sdchang:leg:0.0.2'
-    compile 'com.sdchang:leg:0.0.2@aar'
+    compile 'com.sdchang:leg:0.0.3'
+    compile 'com.sdchang:leg:0.0.3@aar'
 }
 ```
 
