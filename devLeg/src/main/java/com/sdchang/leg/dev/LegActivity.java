@@ -42,6 +42,8 @@ public class LegActivity extends Activity {
 		Leg.a("myTag", "myMessage", threw);
 
 		Leg.a("%s %d %s", "Like running with", 3, "legs");
+		Leg.a("Like running with 3 %s", "legs");
+		Leg.a("Like running with %d legs", 3);
 
 		new Inner().test();
 	}
@@ -75,6 +77,8 @@ public class LegActivity extends Activity {
 			Leg.a("myTag", "myMessage", threw);
 
 			Leg.a("%s %d %s", "Like running with", 3, "legs");
+			Leg.a("Like running with 3 %s", "legs");
+			Leg.a("Like running with %d legs", 3);
 		}
 	}
 }

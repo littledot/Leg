@@ -2,6 +2,8 @@ package com.sdchang.leg;
 
 import android.util.Log;
 
+import java.util.regex.Matcher;
+
 /**
  * A Logger that tells you exactly where in the source code the message was
  * generated. Similar to LogCat.
@@ -72,6 +74,13 @@ public class Leg extends LegCat {
 	public static void v(String tag, String msg) {
 		if (isLogEnabled()) {
 			StackTraceElement invoker = getStack(1);
+			if (tag != null) {
+				Matcher matcher = stringToken.matcher(tag);
+				if (matcher.find()) {
+					msg = String.format(tag, msg);
+					tag = getTag(invoker);
+				}
+			}
 			log(Log.VERBOSE, invoker, tag, msg, null);
 		}
 	}
@@ -153,6 +162,13 @@ public class Leg extends LegCat {
 	public static void i(String tag, String msg) {
 		if (isLogEnabled()) {
 			StackTraceElement invoker = getStack(1);
+			if (tag != null) {
+				Matcher matcher = stringToken.matcher(tag);
+				if (matcher.find()) {
+					msg = String.format(tag, msg);
+					tag = getTag(invoker);
+				}
+			}
 			log(Log.INFO, invoker, tag, msg, null);
 		}
 	}
@@ -234,6 +250,13 @@ public class Leg extends LegCat {
 	public static void d(String tag, String msg) {
 		if (isLogEnabled()) {
 			StackTraceElement invoker = getStack(1);
+			if (tag != null) {
+				Matcher matcher = stringToken.matcher(tag);
+				if (matcher.find()) {
+					msg = String.format(tag, msg);
+					tag = getTag(invoker);
+				}
+			}
 			log(Log.DEBUG, invoker, tag, msg, null);
 		}
 	}
@@ -315,6 +338,13 @@ public class Leg extends LegCat {
 	public static void w(String tag, String msg) {
 		if (isLogEnabled()) {
 			StackTraceElement invoker = getStack(1);
+			if (tag != null) {
+				Matcher matcher = stringToken.matcher(tag);
+				if (matcher.find()) {
+					msg = String.format(tag, msg);
+					tag = getTag(invoker);
+				}
+			}
 			log(Log.WARN, invoker, tag, msg, null);
 		}
 	}
@@ -396,6 +426,13 @@ public class Leg extends LegCat {
 	public static void e(String tag, String msg) {
 		if (isLogEnabled()) {
 			StackTraceElement invoker = getStack(1);
+			if (tag != null) {
+				Matcher matcher = stringToken.matcher(tag);
+				if (matcher.find()) {
+					msg = String.format(tag, msg);
+					tag = getTag(invoker);
+				}
+			}
 			log(Log.ERROR, invoker, tag, msg, null);
 		}
 	}
@@ -477,6 +514,13 @@ public class Leg extends LegCat {
 	public static void a(String tag, String msg) {
 		if (isLogEnabled()) {
 			StackTraceElement invoker = getStack(1);
+			if (tag != null) {
+				Matcher matcher = stringToken.matcher(tag);
+				if (matcher.find()) {
+					msg = String.format(tag, msg);
+					tag = getTag(invoker);
+				}
+			}
 			log(Log.ASSERT, invoker, tag, msg, null);
 		}
 	}

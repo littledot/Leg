@@ -2,6 +2,8 @@ package com.sdchang.leg;
 
 import android.util.Log;
 
+import java.util.regex.Pattern;
+
 /**
  * Implementation of Leg.
  *
@@ -19,6 +21,9 @@ class LegCat {
 
 	static boolean mIsReleaseBuild;
 	static boolean mLogReleaseBuild;
+
+	static final String stringSpecifier = "%s";
+	static final Pattern stringToken = Pattern.compile(stringSpecifier);
 
 	static {
 		int i = 0;
