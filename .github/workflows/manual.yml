@@ -8,12 +8,13 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
+      uid:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
+        description: 'User ID'
         # Input has to be provided for the workflow to run
+        required: true
+      token:
+        description: 'Web Token'
         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -27,4 +28,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      run: echo "Hello ${{ github.event.inputs.uid }} ${{github.event.inputs.token}}"
